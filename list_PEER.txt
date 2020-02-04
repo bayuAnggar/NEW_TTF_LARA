@@ -1,0 +1,164 @@
+IMPORTANT !
+* Login username				done
+* saat token expired, auto ke login		done		
+D:\xampp\htdocs\template_18\node_modules\@websanova\vue-auth\drivers\http liat dibagian KOMEN
+
+HALAMAN INQUIRY TTF
+* show data TTF per user			done 09/12/2019
+* sort by columnn				done 09/12/2019
+* 
+* formated PDF 					done 09/12/2019
+* show barcode					done 09/12/2019
+* send detail data or build detail
+
+* show / hide PRINT TTF				partial 08/12/2019
+
+* form ganti password user pertama login	partial 08/12/2019
+* update password				
+
+* check send props lagi
+* show detail user di halaman input TTF
+	- cek modal on modal
+	- cek return selected data
+	- cek how to return data without saving first
+
+
+
+/**************************************************************************************************/
+get data selected
+
+<template>
+    <div>
+        <b-table
+        responsive
+        ordered
+        ref="branchTable"
+        small
+        select-mode="multi"
+        head-variant="dark"
+        selectable
+        @row-selected="onRowSelected"
+        selected-variant="warning"
+        :items="branchlist" :fields="fields" :busy="isBusy" show-empty align="center" valign="middle"  >
+            <template v-slot:head(selected)="row">
+                <!-- <b-button size="sm" @click="selectAllRows">Select all</!-->
+
+                <b-form-checkbox
+                    id="checkbox-1"
+                    v-model="selectAll"
+                    name="checkbox-1"
+                    value="true"
+                    unchecked-value="false"
+                    @change="selectAllRows"
+                    >
+                </b-form-checkbox>
+            </template>
+
+            <template v-slot:cell(selected)="{ rowSelected }">
+
+                <template v-if="rowSelected">
+                <span aria-hidden="true">&check;</span>
+                <span class="sr-only">Selected</span>
+                </template>
+
+                <template v-else>
+                <span aria-hidden="true">&nbsp;</span>
+                <span class="sr-only">Not selected</span>
+                </template>
+
+            </template>
+
+            <template v-slot:table-busy>
+                <div class="text-center text-danger my-2">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>Loading...</strong>
+                </div>
+            </template>
+        </b-table>
+
+
+        <p>
+            Selected Rows:<br>
+            {{ selected }}
+        </p>
+    </div>
+
+</template>
+<script>
+
+ export default {
+    data() {
+      return {
+        show:false,
+        isBusy: false,
+        branchlist: [],
+        filter: null,
+        currentPage: 1,
+        perPage: 10,
+        totalRows: null,
+        selectMode: 'multi',
+        fixed: true,
+        selected: [],
+        selectAll:false,
+        align:'center',
+        fields: [
+                { key: 'selected'},
+                { key: 'SUPP_SITE_CODE', label: 'Supp. Site Code', sortable: true },
+                { key: 'SUPP_SITE_NAME', label: 'Supp. Site Name'},
+                { key: 'TOTAL_BPB', label: 'Outs. BPB' }
+            ],
+        search: ''
+      }
+    },
+    mounted(){
+        this.getResults();
+    },
+    methods: {
+         getResults(ctx, callback) {
+                this.isBusy = true;
+                var suppId = this.$auth.user().supp_id;
+                var orgId = this.$auth.user().org_id;
+              axios.post('/branchlist',{
+                    supp_id: suppId,
+                    org_id: orgId
+                })
+              .then((res) => {
+                        this.branchlist = res.data.branchlist
+                        this.totalRows = res.data.length;
+                        this.isBusy = false;
+                    }, () => {
+                        this.has_error = true
+                         this.isBusy = false;
+                    });
+
+        },
+        onRowSelected(items) {
+            console.log='OnRowSelected'
+            this.selected = items
+        },
+        selectAllRows() {
+            console.log='HERE !'
+
+            if (!this.selectAll)
+            {
+                 this.$refs.branchTable.selectAllRows()
+                 this.selectAll = true
+            }
+            else
+            {
+                 this.$refs.branchTable.clearSelected()
+                 this.selectAll = false
+            }
+
+
+        },
+        clearSelected() {
+            this.$refs.branchTable.clearSelected()
+        }
+    },
+    created() {
+        // this.loadUsers()
+    }
+  }
+
+</script>
