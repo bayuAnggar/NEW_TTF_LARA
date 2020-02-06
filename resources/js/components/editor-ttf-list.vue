@@ -6,7 +6,7 @@
     small
     responsive
     bordered
-    :items="BPB"
+    :items="Prop_return_data"
     :fields="fields"
     :busy="isBusy"
     show-empty
@@ -17,6 +17,7 @@
     selectable
     selected-variant="warning"
     primary-key="bpb_number"
+    @row-clicked="rowClicked"
     >
         <template v-slot:cell(selected)="{ value }" >
             <b-checkbox v-model="value"></b-checkbox>
@@ -30,21 +31,23 @@
         </template>
 
         <template v-slot:cell(bpb_dpp)="row">
-              {{ row.BPB.bpb_dpp | toCurrency }}
+              {{ row.item.bpb_dpp | toCurrency }}
         </template>
         <template v-slot:cell(bpb_tax)="row">
-              {{ row.BPB.bpb_tax | toCurrency }}
+              {{ row.item.bpb_tax | toCurrency }}
         </template>
     </b-table>
 
-    <p>
-        {{selectedBPB}}
-    </p>
+    <!-- <p>
+        {{Prop_return_data}}
+    </p> -->
 
   </div>
 </template>
 
 <script>
+import { serverBus } from '../app.js';
+
   export default {
     data() {
       return {
@@ -57,8 +60,8 @@
         perPage: 10,
         totalRows: null,
         selectedID: null,
-        BPB:[],
         align:'center',
+        counter:0,
         fields: [
                 { key: 'selected',label: ''},
                 { key: 'bpb_number', label: 'No.BPB',sortable: true },
@@ -73,54 +76,37 @@
       }
     },
     mounted(){
-        this.BPB = this.selectedBPB;
     },
     props:{
         selectedBPB:Array
     },
-    methods: {
-         getResults(ctx, callback) {
-                this.isBusy = true;
-                var suppId = this.$auth.user().supp_id;
-                var orgId = this.$auth.user().org_id;
-              axios.post('/ttf',{
-                    supp_id: suppId,
-                    org_id: orgId
-                })
-              .then((res) => {
-                        this.ttf = res.data.ttf
-                        this.totalRows = res.data.length;
-
-                        //CHECK USER PERLU GANTI PASSWORD TO GA//
-                        if(this.$auth.user().reset_flag == 'Y')
-                        {
-                            this.show = true
-                        }
-
-                        return this.ttf;
-
-                    }, () => {
-                        this.has_error = true
-                    });
-                // this.$http({
-                //     url: 'ttf/${this.$auth.user().supp_id}',
-                //     method: 'POST'
-                //     })
-                //     .then((res) => {
-                //         this.ttf = res.data.ttf
-                //         this.totalRows = res.data.length;
-                //         return this.ttf;
-                //     }, () => {
-                //         this.has_error = true
-                //     });
-                     this.isBusy = false;
-            },
-        createUser(){
-            alert('HAHAHAH');
+    computed:{
+        Prop_return_data(){
+            for (var counter=0;counter<this.selectedBPB.length;counter++)
+            {
+                Vue.set(this.selectedBPB[counter], 'selected', false);
+            }
+            return this.selectedBPB;
+        },
+        selectedRows() {
+            // this.selectedData = item;
+            return this.Prop_return_data.filter(item => item.selected)
         }
+
+    },
+    methods: {
+        rowClicked(item) {
+            if(item.selected){
+                this.$set(item, 'selected', false)
+            }else{
+                this.$set(item, 'selected', true)
+            }
+            //alert('here');
+            serverBus.$emit('onEditorClick', this.selectedRows);
+        },
+
     },
     created() {
-        // this.loadUsers()
     }
   }
 </script>

@@ -155,7 +155,7 @@
     </b-container>
 
     <P>
-        {{selectedRows}}
+        HERE : {{result}}
     </P>
     </div>
 
@@ -181,6 +181,8 @@ import { serverBus } from '../app.js';
         filterOn: [],
         totalRows: 1,
         align:'center',
+        pass_to_child:[],
+        result:[],
         fields: [
                 { key: 'selected',label: ''},
                 { key: 'bpb_number', label: 'No.BPB' },
@@ -193,7 +195,8 @@ import { serverBus } from '../app.js';
       }
     },
     props:{
-        site:Number
+        site:Number,
+        selectedDataBPB:Array
     },
     mounted(){
         this.getResults();
@@ -201,8 +204,10 @@ import { serverBus } from '../app.js';
     },
     computed: {
       selectedRows() {
+        // this.selectedData = item;
         return this.bpb_site.filter(item => item.selected)
-        this.selectedData = item;      }
+
+        }
     },
     methods: {
         rowClicked(item) {
@@ -230,10 +235,27 @@ import { serverBus } from '../app.js';
             var suppId = this.$auth.user().supp_id;
             var orgId = this.$auth.user().org_id;
             var supp_site_id =this.site;
+
+            //exclude bpb yang udah dipilih sebelumnya
+            if(this.selectedDataBPB.length > 0)
+            {
+                for (var x=0;x<this.selectedDataBPB.length;x++)
+                {
+                    this.result.push(this.selectedDataBPB[x].bpb_id);
+                }
+                var not_include_bpb_id = this.result;
+            }
+            else
+            {
+                var not_include_bpb_id=[];
+            }
+            //sampe sini
+
             axios.post('/bpb_supplier',{
                     supp_id: suppId,
                     supp_site_id: supp_site_id,
-                    org_id: orgId
+                    org_id: orgId,
+                    not_include_bpb: not_include_bpb_id
             })
             .then((res) => {
                     this.bpb_site = res.data.bpb_data;
@@ -246,13 +268,11 @@ import { serverBus } from '../app.js';
                 this.isBusy = false;
             },
         batal_pilih_bpb(){
-            alert('HAHAHAH');
             this.$bvModal.hide('modalBPBdata');
         },
         pilih_bpb_data(){
-            alert(JSON.stringify(this.selectedRows) );
-            // this.productSelected = product;
-            serverBus.$emit('onChildClick', this.selectedRows);
+            // alert(JSON.stringify(this.selectedRows) );
+            serverBus.$emit('onChildClick', this.selectedRows.concat(this.selectedDataBPB));
             this.$bvModal.hide('modalBPBdata');
         }
     }

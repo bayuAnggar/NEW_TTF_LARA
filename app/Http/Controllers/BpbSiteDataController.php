@@ -17,11 +17,24 @@ class BpbSiteDataController extends Controller
         $supp_id = $request->input('supp_id');
         $supp_site_id = $request->input('supp_site_id');
         $org_id = $request->input('org_id');
+        $not_include_bpb = $request->input('not_include_bpb');
 
-        $bpb_data = ttf_data_bpb::where('supp_id',$supp_id)
+        if(count($not_include_bpb) > 0)
+        {
+            $bpb_data = ttf_data_bpb::where('supp_id',$supp_id)
+                                ->where('supp_site_id',$supp_site_id)
+                                ->where('org_id',$org_id)
+                                ->whereNotIn('bpb_id',$not_include_bpb)
+                                ->get();
+        }
+        else
+        {
+            $bpb_data = ttf_data_bpb::where('supp_id',$supp_id)
                                 ->where('supp_site_id',$supp_site_id)
                                 ->where('org_id',$org_id)
                                 ->get();
+        }
+
 
         return response()->json(
             [
