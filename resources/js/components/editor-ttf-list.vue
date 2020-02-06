@@ -6,7 +6,11 @@
     small
     responsive
     bordered
+<<<<<<< HEAD
     :items="BPB"
+=======
+    :items="Prop_return_data"
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     :fields="fields"
     :busy="isBusy"
     show-empty
@@ -17,6 +21,10 @@
     selectable
     selected-variant="warning"
     primary-key="bpb_number"
+<<<<<<< HEAD
+=======
+    @row-clicked="rowClicked"
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     >
         <template v-slot:cell(selected)="{ value }" >
             <b-checkbox v-model="value"></b-checkbox>
@@ -30,6 +38,7 @@
         </template>
 
         <template v-slot:cell(bpb_dpp)="row">
+<<<<<<< HEAD
               {{ row.BPB.bpb_dpp | toCurrency }}
         </template>
         <template v-slot:cell(bpb_tax)="row">
@@ -40,11 +49,28 @@
     <p>
         {{selectedBPB}}
     </p>
+=======
+              {{ row.item.bpb_dpp | toCurrency }}
+        </template>
+        <template v-slot:cell(bpb_tax)="row">
+              {{ row.item.bpb_tax | toCurrency }}
+        </template>
+    </b-table>
+
+    <!-- <p>
+        {{Prop_return_data}}
+    </p> -->
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
 
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import { serverBus } from '../app.js';
+
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
   export default {
     data() {
       return {
@@ -57,8 +83,13 @@
         perPage: 10,
         totalRows: null,
         selectedID: null,
+<<<<<<< HEAD
         BPB:[],
         align:'center',
+=======
+        align:'center',
+        counter:0,
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
         fields: [
                 { key: 'selected',label: ''},
                 { key: 'bpb_number', label: 'No.BPB',sortable: true },
@@ -73,11 +104,15 @@
       }
     },
     mounted(){
+<<<<<<< HEAD
         this.BPB = this.selectedBPB;
+=======
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     },
     props:{
         selectedBPB:Array
     },
+<<<<<<< HEAD
     methods: {
          getResults(ctx, callback) {
                 this.isBusy = true;
@@ -121,6 +156,35 @@
     },
     created() {
         // this.loadUsers()
+=======
+    computed:{
+        Prop_return_data(){
+            for (var counter=0;counter<this.selectedBPB.length;counter++)
+            {
+                Vue.set(this.selectedBPB[counter], 'selected', false);
+            }
+            return this.selectedBPB;
+        },
+        selectedRows() {
+            // this.selectedData = item;
+            return this.Prop_return_data.filter(item => item.selected)
+        }
+
+    },
+    methods: {
+        rowClicked(item) {
+            if(item.selected){
+                this.$set(item, 'selected', false)
+            }else{
+                this.$set(item, 'selected', true)
+            }
+            //alert('here');
+            serverBus.$emit('onEditorClick', this.selectedRows);
+        },
+
+    },
+    created() {
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     }
   }
 </script>

@@ -148,7 +148,11 @@
                     <b-card border-variant="dark" header="Data BPB" align="center">
                         <div  class="mx-1" align="left">
                             <b-button variant="success" v-b-modal.modalBPBdata size="sm">Tambah Data BPB</b-button>
+<<<<<<< HEAD
                             <b-button variant="danger" size="sm">Hapus Data BPB</b-button>
+=======
+                            <b-button variant="danger" size="sm" @click="delete_bpb_click">Hapus Data BPB</b-button>
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
                         </div>
 
                         <br>
@@ -176,7 +180,11 @@
         centered
         id="modalBPBdata"
         title="Pilih data BPB">
+<<<<<<< HEAD
             <bpbPerSite :site=selectedSite></bpbPerSite>
+=======
+            <bpbPerSite :site=selectedSite :selectedDataBPB=selectedDataBPB></bpbPerSite>
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
         </b-modal>
 
     </div>
@@ -216,7 +224,12 @@ data() {
             ] ,// end of breadcrumb
             detail_supp: null,
             selectedSite:null,
+<<<<<<< HEAD
             selectedDataBPB:[]
+=======
+            selectedDataBPB:[],
+            deletedBPB:[]
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
         }
     },
     mounted()
@@ -234,12 +247,41 @@ data() {
         serverBus.$on('onChildClick', (onChildClick) => {
         this.selectedDataBPB = onChildClick;
         });
+<<<<<<< HEAD
     },
     methods: {
         onChildClick (value) {
             alert('here');
             this.selectedDataBPB = value
         },
+=======
+
+        serverBus.$on('onEditorClick', (onEditorClick) => {
+        this.deletedBPB = onEditorClick;
+        });
+    },
+    methods: {
+        onChildClick (value) {
+            this.selectedDataBPB = value
+        },
+         onEditorClick (value) {
+            this.deletedBPB = value
+        },
+        delete_bpb_click()
+        {
+            for(var x=0;x<this.deletedBPB.length;x++)
+            {
+                var y = this.selectedDataBPB.find(item => item.bpb_id === this.deletedBPB[x].bpb_id);
+
+                var index =  this.selectedDataBPB.indexOf(y)
+
+                this.selectedDataBPB.splice(index, 1);
+                alert(index);
+
+            }
+
+        },
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
          getResults()
         {
                 //alert(this.SITE);

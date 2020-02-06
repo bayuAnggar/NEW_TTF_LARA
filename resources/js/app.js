@@ -51,9 +51,14 @@ Vue.filter('toCurrency', function (value) {
 
 // Set Vue authentication
 Vue.use(VueAxios, axios)
+<<<<<<< HEAD
 axios.defaults.baseURL = `http://localhost:8080/api`
 Vue.use(VueAuth, auth)
 //VueCookie.get('api_token');
+=======
+axios.defaults.baseURL = `http://localhost:8010/api`
+Vue.use(VueAuth, auth)
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
 
 // Load Index
 Vue.component('index', Index)

@@ -21,7 +21,11 @@ class ViewTTFController extends Controller
 
         // DB::statement(DB::raw('SET @p_supp_id= :supp_id,@p_org_id= :org_id',['supp_id'=>$supp_id,'org_id'=>$org_id]));
 
+<<<<<<< HEAD
         $query = "SELECT itv.* FROM inq_ttf_views itv"  ;
+=======
+        $query = "SELECT itv.* FROM igr_new_2.inq_ttf_views itv"  ;
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
         // $query = "SELECT itv.* FROM (select @p_supp_id=:suppId) p_supp_id, (select @p_org_id=:orgId) p_org_id, igr_new_2.inq_ttf_views itv";
 
         // $values = [$supp_id, $org_id];

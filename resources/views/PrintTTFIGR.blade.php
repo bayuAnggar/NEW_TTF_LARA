@@ -5,7 +5,10 @@
     <title>hi</title>
 </head>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
 <body>
     <table width="100%" Height="100%" border="1">
         <thead>

@@ -155,7 +155,11 @@
     </b-container>
 
     <P>
+<<<<<<< HEAD
         {{selectedRows}}
+=======
+        HERE : {{result}}
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     </P>
     </div>
 
@@ -181,6 +185,11 @@ import { serverBus } from '../app.js';
         filterOn: [],
         totalRows: 1,
         align:'center',
+<<<<<<< HEAD
+=======
+        pass_to_child:[],
+        result:[],
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
         fields: [
                 { key: 'selected',label: ''},
                 { key: 'bpb_number', label: 'No.BPB' },
@@ -193,7 +202,12 @@ import { serverBus } from '../app.js';
       }
     },
     props:{
+<<<<<<< HEAD
         site:Number
+=======
+        site:Number,
+        selectedDataBPB:Array
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     },
     mounted(){
         this.getResults();
@@ -201,8 +215,15 @@ import { serverBus } from '../app.js';
     },
     computed: {
       selectedRows() {
+<<<<<<< HEAD
         return this.bpb_site.filter(item => item.selected)
         this.selectedData = item;      }
+=======
+        // this.selectedData = item;
+        return this.bpb_site.filter(item => item.selected)
+
+        }
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     },
     methods: {
         rowClicked(item) {
@@ -230,10 +251,34 @@ import { serverBus } from '../app.js';
             var suppId = this.$auth.user().supp_id;
             var orgId = this.$auth.user().org_id;
             var supp_site_id =this.site;
+<<<<<<< HEAD
             axios.post('/bpb_supplier',{
                     supp_id: suppId,
                     supp_site_id: supp_site_id,
                     org_id: orgId
+=======
+
+            //exclude bpb yang udah dipilih sebelumnya
+            if(this.selectedDataBPB.length > 0)
+            {
+                for (var x=0;x<this.selectedDataBPB.length;x++)
+                {
+                    this.result.push(this.selectedDataBPB[x].bpb_id);
+                }
+                var not_include_bpb_id = this.result;
+            }
+            else
+            {
+                var not_include_bpb_id=[];
+            }
+            //sampe sini
+
+            axios.post('/bpb_supplier',{
+                    supp_id: suppId,
+                    supp_site_id: supp_site_id,
+                    org_id: orgId,
+                    not_include_bpb: not_include_bpb_id
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
             })
             .then((res) => {
                     this.bpb_site = res.data.bpb_data;
@@ -246,6 +291,7 @@ import { serverBus } from '../app.js';
                 this.isBusy = false;
             },
         batal_pilih_bpb(){
+<<<<<<< HEAD
             alert('HAHAHAH');
             this.$bvModal.hide('modalBPBdata');
         },
@@ -253,6 +299,13 @@ import { serverBus } from '../app.js';
             alert(JSON.stringify(this.selectedRows) );
             // this.productSelected = product;
             serverBus.$emit('onChildClick', this.selectedRows);
+=======
+            this.$bvModal.hide('modalBPBdata');
+        },
+        pilih_bpb_data(){
+            // alert(JSON.stringify(this.selectedRows) );
+            serverBus.$emit('onChildClick', this.selectedRows.concat(this.selectedDataBPB));
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
             this.$bvModal.hide('modalBPBdata');
         }
     }

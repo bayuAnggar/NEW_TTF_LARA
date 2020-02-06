@@ -190,12 +190,24 @@
                                                     },
                                             responseType: 'blob', // important
                                         }).then((response) => {
+<<<<<<< HEAD
                                             window.URL = window.URL || window.webkitURL;
                                             const url = window.URL.createObjectURL(new Blob([response.data],{type: 'application/pdf'}));
                                             this.disarm = false;
            
                                             window.open(url,'_blank');
                                            
+=======
+                                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                                            // const link = document.createElement('a');
+                                            // link.href = url;
+
+                                            window.open(url,'_blank');
+                                            this.disarm = false;
+                                            // link.setAttribute('download', 'file.pdf');
+                                            // document.body.appendChild(link);
+                                            // link.click();
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
                                         });
 
 

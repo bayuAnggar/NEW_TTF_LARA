@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 
 use Illuminate\Support\Facades\DB;
 
@@ -11,6 +12,8 @@ use App\TtfHeaders;
 use App\SuppSites;
 use App\Branches;
 use App\TtfLines;
+=======
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
 use CPDF;
 
 class GeneratePDF extends Controller
@@ -21,6 +24,7 @@ class GeneratePDF extends Controller
      * @return \Illuminate\Http\Response
      */
 
+<<<<<<< HEAD
     
     public function ttf(Request $request)
     {
@@ -208,6 +212,94 @@ class GeneratePDF extends Controller
         CPDF::Output('hello_world.pdf');
 
         
+=======
+
+    public function ttf(Request $request)
+    {
+       /* GET DATA TTF FIRST ! */
+       $ttf_id = $request->input('ttf_id');
+       $ttf_num = $request->input('ttf_num');
+
+       $bpb_data='
+       <table width="100%" Height="100%" border="1">
+                <tr>
+                    <td colspan="2" align="CENTER" style="vertical-align:bottom" rowspan="3">
+                        <br>
+                        LOGO
+                    </td>
+                    <td colspan="5" align="CENTER" rowspan="3">JUDUL</td>
+                    <td colspan="2" align="CENTER" rowspan="3">SUPPLIER</td>
+                </tr>
+               <tr>
+                    <td colspan="9" align="CENTER"></td>
+               </tr>
+               <tr>
+               <td colspan="9" align="CENTER"></td>
+          </tr>
+                <tr>
+                    <td colspan="9" align="CENTER" rowspan="2"> BARCODE </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+        </table>
+       ';
+
+       
+
+        // $data = [
+        //         //HEADER
+        //         'TTF_NUM' => '12345',
+        //         'SUPP_NAME' => 'SUPPNAME-SUPP_SITE_CODE',
+        //         'BRANCH_NAME' => 'CABANG',
+        //         'TANGGAL KEMBALI' => '',
+        //         'barcode' =>  CPDF::serializeTCPDFtagParameters(array('12345','C128A','', '',0, 14, 0.6,array('position' => '','align' => 'C','stretch' => false,    'fitwidth' => '','cellfitalign' => true,'border' => false,'hpadding' => 'auto','vpadding' => 0,'fgcolor' => array(0,0,0),'bgcolor' => false,'text' => true,'font' => 'helvetica','fontsize' => 8,'stretchtext' => 4), 'N')),
+        //         'REPRINT_MARK' => 'REPRINT KE-1',
+        //         'BPB_TTF' => $bpb_data
+        //         ];
+
+        // $pdf = PDF::loadView('myPDF', $data);
+        // // return CPDF::download('laporan-pdf.pdf');
+
+        // CPDF::setPaper('a4' , 'portrait');
+        // return CPDF::stream();
+
+        // $view = \View::make('PrintTTFIGR',$data);
+        // $html = $view->render();
+        CPDF::addPage();
+        CPDF::writeHTML($bpb_data, true, false, true, false, '');
+        CPDF::Output('hello_world.pdf');
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
     }
 
     /**

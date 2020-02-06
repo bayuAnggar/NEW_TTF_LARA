@@ -15,7 +15,11 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<<<<<<< HEAD
     <link href="{{asset('css/raleway.css')}}" rel="stylesheet" type="text/css">
+=======
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+>>>>>>> 730a4f5e0a45fdfbd4987c405170fa8f2c6f1bc8
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
